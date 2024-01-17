@@ -1,1 +1,5 @@
-export { Button, type ButtonProps } from "./button";
+
+const HelloWorld = "Hello World!";
+
+
+export default HelloWorld;

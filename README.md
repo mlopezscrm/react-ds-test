@@ -1,192 +1,95 @@
-# Turborepo Design System Starter
 
-This guide explains how to use a React design system starter powered by:
+This project involves developing a library that supports both React and React Native applications, focusing on a design system. The main challenge is to create a unified component library that works seamlessly across both platforms, utilizing Tailwind for styling and ensuring accessibility.
 
-- 🏎 [Turborepo](https://turbo.build/repo) — High-performance build system for Monorepos
-- 🚀 [React](https://reactjs.org/) — JavaScript library for user interfaces
-- 🛠 [Tsup](https://github.com/egoist/tsup) — TypeScript bundler powered by esbuild
-- 📖 [Storybook](https://storybook.js.org/) — UI component environment powered by Vite
+### **📖 Description**
 
-As well as a few others tools preconfigured:
+The goal is to develop two key components — **Button** and **Alert** — based on the designs provided in [Figma](https://www.figma.com/file/K6wOCDyoNqSa8qMAuTXtAr/Starter-Design-System-(Community)?type=design&node-id=0-1&mode=design&t=hvZcPmpp5cXFApGy-0). These components should be universally compatible with React and React Native, illustrating the power of a shared component library in a cross-platform environment.
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-- [Changesets](https://github.com/changesets/changesets) for managing versioning and changelogs
-- [GitHub Actions](https://github.com/changesets/action) for fully automated package publishing
+### **🚀 Getting Started**
 
-## Using this example
+Ensure you have the necessary React and React Native environment set up. You will be provided with a TurboRepo template including a React Native app and a Storybook setup for React.
 
-Run the following command:
+**Step 1:** Clone the Provided Repository
+Start by cloning the repository provided by our team. This repository contains the basic setup for your development.
 
-```sh
-npx create-turbo@latest -e design-system
+**Step 2:** Install Dependencies
+Navigate to the project directory and install the necessary dependencies:
+
+```bash
+# using npm
+npm install
+
+# OR using Yarn
+yarn install
+
 ```
+
+**Step 3:** Start Developing
+Begin by developing the Button and Alert components based on the Figma designs. Remember to import the components uniformly in both React and React Native environments.
+
 
 ### Useful Commands
 
-- `pnpm build` - Build all packages, including the Storybook site
-- `pnpm dev` - Run all packages locally and preview with Storybook
-- `pnpm lint` - Lint all packages
-- `pnpm changeset` - Generate a changeset
-- `pnpm clean` - Clean up all `node_modules` and `dist` folders (runs each package's clean script)
+- `yarn build` - Build all packages, including the Storybook site
+- `yarn dev` - Run all packages locally and preview with Storybook
+- `yarn lint` - Lint all packages
+- `yarn changeset` - Generate a changeset
+- `yarn clean` - Clean up all `node_modules` and `dist` folders (runs each package's clean script)
+- `cd apps/mobile & yarn start` - Run React Native app (**Tested on Android**)
 
-## Turborepo
 
-[Turborepo](https://turbo.build/repo) is a high-performance build system for JavaScript and TypeScript codebases. It was designed after the workflows used by massive software engineering organizations to ship code at scale. Turborepo abstracts the complex configuration needed for monorepos and provides fast, incremental builds with zero-configuration remote caching.
+### **🛠 Technical Challenges**
 
-Using Turborepo simplifies managing your design system monorepo, as you can have a single lint, build, test, and release process for all packages. [Learn more](https://vercel.com/blog/monorepos-are-changing-how-teams-build-software) about how monorepos improve your development workflow.
+**Challenge 1: Universal Components Development with Tailwind**
+📌 Develop the Button and Alert components to be compatible with both React and React Native. Here's an example of how the components should be imported and used:
 
-## Apps & Packages
+- [ ]  Set up TailwindCSS configuration to enable styling for the components.
+    - [ ]  Set up [NativeWind](https://www.nativewind.dev/quick-starts/react-native-cli) to make tailwind work in RN.
+- [ ]  Create components.
 
-This Turborepo includes the following packages and applications:
+**React**:
 
-- `apps/docs`: Component documentation site with Storybook
-- `packages/ui`: Core React components
-- `packages/utils`: Shared React utilities
-- `packages/typescript-config`: Shared `tsconfig.json`s used throughout the Turborepo
-- `packages/eslint-config`: ESLint preset
+```jsx
+import Button from 'your-library';
 
-Each package and app is 100% [TypeScript](https://www.typescriptlang.org/). Workspaces enables us to "hoist" dependencies that are shared between packages to the root `package.json`. This means smaller `node_modules` folders and a better local dev experience. To install a dependency for the entire monorepo, use the `-w` workspaces flag with `pnpm add`.
+<Button onPress={handlePress} label="press me">
 
-This example sets up your `.gitignore` to exclude all generated files, other folders like `node_modules` used to store your dependencies.
-
-### Compilation
-
-To make the core library code work across all browsers, we need to compile the raw TypeScript and React code to plain JavaScript. We can accomplish this with `tsup`, which uses `esbuild` to greatly improve performance.
-
-Running `pnpm build` from the root of the Turborepo will run the `build` command defined in each package's `package.json` file. Turborepo runs each `build` in parallel and caches & hashes the output to speed up future builds.
-
-For `acme-core`, the `build` command is the following:
-
-```bash
-tsup src/index.tsx --format esm,cjs --dts --external react
 ```
 
-`tsup` compiles `src/index.tsx`, which exports all of the components in the design system, into both ES Modules and CommonJS formats as well as their TypeScript types. The `package.json` for `acme-core` then instructs the consumer to select the correct format:
+**React Native**:
 
-```json:acme-core/package.json
-{
-  "name": "@acme/core",
-  "version": "0.0.0",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "sideEffects": false,
-}
+```jsx
+import Button from 'your-library';
+
+<Button onPress={handlePress} label="press me">
+
 ```
 
-Run `pnpm build` to confirm compilation is working correctly. You should see a folder `acme-core/dist` which contains the compiled output.
+**Challenge 2: Accessibility**
+📌 Ensure that the Button and Alert components are accessible to users with disabilities.
 
-```bash
-acme-core
-└── dist
-    ├── index.d.ts  <-- Types
-    ├── index.js    <-- CommonJS version
-    └── index.mjs   <-- ES Modules version
-```
+Follow best practices for accessibility, such as providing alternative text for images, using proper semantic markup, etc.
 
-## Components
+### **🌟 Extra Points**
 
-Each file inside of `acme-core/src` is a component inside our design system. For example:
+- **Tailwind Variants Configuration:** Successfully configuring and utilizing [Tailwind Variants](https://www.tailwind-variants.org/) for the components.
+- **Accessibility +:** Ensure that the keyboard navigation and focus works.
+- **Code Reusability:** Demonstrating high levels of code reuse between components and across platforms.
+- **Creative Feature:** Add an innovative feature or improvement to the components that enhances their functionality or user experience.
 
-```tsx:acme-core/src/Button.tsx
-import * as React from 'react';
+### **🌟 Submission Guidelines**
 
-export interface ButtonProps {
-  children: React.ReactNode;
-}
+- **Regular Commits:** Make regular commits to the repository to showcase the evolution of your project. Completing all tasks is not mandatory; progress in any form is valued.
+- **Documentation:** Include a README with implementation instructions and component demonstrations.
+- **Public Repository:** Once completed, make sure your repository is public and share the link with us.
 
-export function Button(props: ButtonProps) {
-  return <button>{props.children}</button>;
-}
+### **📚 Project Dependencies**
 
-Button.displayName = 'Button';
-```
+- [React](https://reactjs.org/)
+- [React Native](https://reactnative.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [TurboRepo](https://turborepo.org/)
 
-When adding a new file, ensure the component is also exported from the entry `index.tsx` file:
+### **🙌 Conclusion**
 
-```tsx:acme-core/src/index.tsx
-import * as React from "react";
-export { Button, type ButtonProps } from "./Button";
-// Add new component exports here
-```
-
-## Storybook
-
-Storybook provides us with an interactive UI playground for our components. This allows us to preview our components in the browser and instantly see changes when developing locally. This example preconfigures Storybook to:
-
-- Use Vite to bundle stories instantly (in milliseconds)
-- Automatically find any stories inside the `stories/` folder
-- Support using module path aliases like `@acme-core` for imports
-- Write MDX for component documentation pages
-
-For example, here's the included Story for our `Button` component:
-
-```js:apps/docs/stories/button.stories.mdx
-import { Button } from '@acme-core/src';
-import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks';
-
-<Meta title="Components/Button" component={Button} />
-
-# Button
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget consectetur tempor, nisl nunc egestas nisi, euismod aliquam nisl nunc euismod.
-
-## Props
-
-<Props of={Box} />
-
-## Examples
-
-<Preview>
-  <Story name="Default">
-    <Button>Hello</Button>
-  </Story>
-</Preview>
-```
-
-This example includes a few helpful Storybook scripts:
-
-- `pnpm dev`: Starts Storybook in dev mode with hot reloading at `localhost:6006`
-- `pnpm build`: Builds the Storybook UI and generates the static HTML files
-- `pnpm preview-storybook`: Starts a local server to view the generated Storybook UI
-
-## Versioning & Publishing Packages
-
-This example uses [Changesets](https://github.com/changesets/changesets) to manage versions, create changelogs, and publish to npm. It's preconfigured so you can start publishing packages immediately.
-
-You'll need to create an `NPM_TOKEN` and `GITHUB_TOKEN` and add it to your GitHub repository settings to enable access to npm. It's also worth installing the [Changesets bot](https://github.com/apps/changeset-bot) on your repository.
-
-### Generating the Changelog
-
-To generate your changelog, run `pnpm changeset` locally:
-
-1. **Which packages would you like to include?** – This shows which packages and changed and which have remained the same. By default, no packages are included. Press `space` to select the packages you want to include in the `changeset`.
-1. **Which packages should have a major bump?** – Press `space` to select the packages you want to bump versions for.
-1. If doing the first major version, confirm you want to release.
-1. Write a summary for the changes.
-1. Confirm the changeset looks as expected.
-1. A new Markdown file will be created in the `changeset` folder with the summary and a list of the packages included.
-
-### Releasing
-
-When you push your code to GitHub, the [GitHub Action](https://github.com/changesets/action) will run the `release` script defined in the root `package.json`:
-
-```bash
-turbo run build --filter=docs^... && changeset publish
-```
-
-Turborepo runs the `build` script for all publishable packages (excluding docs) and publishes the packages to npm. By default, this example includes `acme` as the npm organization. To change this, do the following:
-
-- Rename folders in `packages/*` to replace `acme` with your desired scope
-- Search and replace `acme` with your desired scope
-- Re-run `pnpm install`
-
-To publish packages to a private npm organization scope, **remove** the following from each of the `package.json`'s
-
-```diff
-- "publishConfig": {
--  "access": "public"
-- },
-```
+Good luck with the technical test! We are eager to see your approach to the challenges and the creative solutions you come up with. Feel free to ask for any clarifications or further information.
