@@ -17,10 +17,8 @@ Start by cloning the repository provided by our team. This repository contains t
 Navigate to the project directory and install the necessary dependencies:
 
 ```bash
-# using npm
-npm install
 
-# OR using Yarn
+# Use Yarn to install dependencies its a monorepo
 yarn install
 
 ```
